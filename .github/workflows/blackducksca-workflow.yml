@@ -29,7 +29,7 @@ jobs:
           blackducksca_token: ${{ secrets.BLACKDUCKSCA_TOKEN }}
           detect_args: '--detect.excluded.detector.types=GIT'
           blackducksca_waitForScan: true
-          network_ssl_trustAll: true
+          #network_ssl_trustAll: true
           mark_build_status: failure
           include_diagnostics: false
           blackducksca_prComment_enabled: false
