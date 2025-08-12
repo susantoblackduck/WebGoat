@@ -27,6 +27,7 @@ jobs:
         with:
           blackducksca_url: ${{ vars.BLACKDUCKSCA_URL }}
           blackducksca_token: ${{ secrets.BLACKDUCKSCA_TOKEN }}
+          detect_args: '--detect.excluded.detector.types=GIT'
           blackducksca_waitForScan: true
           network_ssl_trustAll: true
           mark_build_status: failure
