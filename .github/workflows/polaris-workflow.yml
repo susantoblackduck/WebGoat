@@ -34,6 +34,9 @@ jobs:
           ### ASSESSMENT TYPES
           polaris_assessment_types: SAST,SCA  # Comma-separated list: SAST,SCA,DAST
 
+          ### COVERITY BUILD COMMANDS (uncomment and configure for compiled languages)
+          coverity_build_command: mvn -B -DskipTests package
+          coverity_clean_command: mvn -B clean
 
           ### SCAN CONFIGURATION: Uncomment below to enable
           # polaris_waitForScan: true # Wait for scan completion before proceeding
