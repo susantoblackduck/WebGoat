@@ -17,6 +17,10 @@ on:
       - stage
       - release
   workflow_dispatch: {}
+# GitHub token permissions for post-scan actions. Required for built-in GITHUB_TOKEN; if using a PAT with equivalent scopes, permissions block can be commented out.
+permissions:
+  contents: write               # Required to push changes or create fix branches
+  pull-requests: write          # Required to add comments or create fix pull requests
 jobs:
   polaris:
     runs-on: ubuntu-latest
@@ -33,6 +37,9 @@ jobs:
           polaris_access_token: ${{ secrets.POLARIS_ACCESS_TOKEN }}
           ### ASSESSMENT TYPES
           polaris_assessment_types: SAST,SCA  # Comma-separated list: SAST,SCA,DAST
+          ### GITHUB TOKEN
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Required when PR comments or sarif reports enabled
+          polaris_prComment_enabled: true
 
 
           ### SCAN CONFIGURATION: Uncomment below to enable
@@ -43,12 +50,6 @@ jobs:
 
           ### Uncomment below configuration if Bridge diagnostic files needs to be uploaded
           # include_diagnostics: false
-
-          ### GITHUB TOKEN: Uncomment below to enable
-          # github_token: ${{ secrets.GITHUB_TOKEN }} # Required when PR comments or sarif reports enabled
-
-          ### SCANNING: Optional fields
-          # polaris_prComment_enabled: false
 
           ### SARIF report parameters
           # polaris_reports_sarif_create: false # Create SARIF report and upload it as artifact
