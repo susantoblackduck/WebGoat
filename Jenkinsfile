@@ -1,0 +1,48 @@
+// example Jenkinsfile for Polaris scans using the Black Duck Security Scan Plugin
+// https://plugins.jenkins.io/blackduck-security-scan
+pipeline {
+    agent { label 'linux64' }
+    environment {
+        REPO_NAME = "${env.GIT_URL.tokenize('/.')[-2]}"
+        FULLSCAN = "${env.BRANCH_NAME ==~ /^(main|master|develop|stage|release)$/ ? 'true' : 'false'}"
+        PRSCAN = "${env.CHANGE_TARGET ==~ /^(main|master|develop|stage|release)$/ ? 'true' : 'false'}"
+        GITHUB_TOKEN = credentials('github-pat')
+    }
+    tools {
+        maven 'maven-3'
+        jdk 'openjdk-21'
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn -B package'
+            }
+        }
+        stage('Polaris') {
+            when {
+                anyOf {
+                    environment name: 'FULLSCAN', value: 'true'
+                    environment name: 'PRSCAN', value: 'true'
+                }
+            }
+            steps {
+                security_scan product: 'polaris',
+                    polaris_assessment_types: 'SAST',
+                    polaris_application_name: "susantoblackduck-CICD",
+                    polaris_project_name: "Jenkins-WebGoat",
+                    polaris_prComment_enabled: true,
+                    polaris_reports_sarif_create: true,
+                    coverity_build_command: 'mvn -B -DskipTests package',
+                    coverity_clean_command: 'mvn -B clean',
+                    github_token: "$GITHUB_TOKEN",
+                    include_diagnostics: false,
+                    mark_build_status: 'UNSTABLE'
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
