@@ -29,6 +29,25 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v4
 
+      # ✅ Install Java (JDK)
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'   # recommended (Adoptium)
+          java-version: '17'        # WebGoat typically works with 11 or 17
+
+      # ✅ Install Maven (optional, usually already present)
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4
+        with:
+          maven-version: '3.9.6'
+
+      # ✅ Verify installs (good for debugging/demo)
+      - name: Verify Java & Maven
+        run: |
+          java -version
+          mvn -versio
+
       - name: Polaris Security Scan
         id: polaris-scan
         uses: blackduck-inc/black-duck-security-scan@v2
