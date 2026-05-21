@@ -62,8 +62,8 @@ jobs:
           polaris_assessment_types: SAST,SCA  # Comma-separated list: SAST,SCA,DAST
           
           ### COVERITY BUILD COMMANDS (uncomment and configure for compiled languages)
-          coverity_build_command: mvn install -DskipTests
-          coverity_clean_command: mvn clean
+          coverity_build_command: ./mvnw clean install -DskipTests
+          #coverity_clean_command: ./mvnw clean
           ### SCANNING: Optional fields
           polaris_test_sast_location: hybrid
           polaris_test_sca_location: hybrid
