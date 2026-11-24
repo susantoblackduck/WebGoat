@@ -47,6 +47,10 @@ jobs:
         run: |
           java -version
           mvn -version
+          
+      # ✅ Pre-Build Actions
+      - name: Run Maven Spotless Apply
+        run: ./mvnw spotless:apply
 
       - name: Polaris Security Scan
         id: polaris-scan
