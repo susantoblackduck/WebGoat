@@ -34,7 +34,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'   # recommended (Adoptium)
-          java-version: '17'        # WebGoat typically works with 11 or 17
+          java-version: '25'        # WebGoat typically works with 11 or 17
 
       # ✅ Install Maven (optional, usually already present)
       - name: Set up Maven
